@@ -294,10 +294,16 @@ REQUIRED_SECTIONS = ["中文标题", "一句话总结", "摘要中文全文"]
 
 def llm_is_benchmark(client: OpenAI, paper: dict, model: str) -> bool:
     """使用 LLM 判断论文是否为 benchmark 论文"""
-    prompt = BENCHMARK_PROMPT.format(
-        title=paper["title"],
-        abstract=paper["abstract"],
-    )
+    # 简化后的 prompt，更直接
+    prompt = f"""判断以下论文是否属于 benchmark 论文。
+
+benchmark 论文定义：提出了新的基准测试、数据集、评估任务、性能对比基线、标准测试套件，或者对现有 benchmark 进行系统性评估。
+
+请只输出一个单词：YES 或 NO。不要输出其他任何内容。
+
+标题：{paper['title']}
+摘要：{paper['abstract']}
+"""
 
     max_retries = 3
 
@@ -308,10 +314,7 @@ def llm_is_benchmark(client: OpenAI, paper: dict, model: str) -> bool:
                 messages=[
                     {
                         "role": "system",
-                        "content": (
-                            "你是一个严格的论文分类器。"
-                            "只输出 YES 或 NO，不要输出任何其他内容。"
-                        ),
+                        "content": "你是一个严格的论文分类器。只输出 YES 或 NO，不要输出其他任何字符。"
                     },
                     {"role": "user", "content": prompt},
                 ],
@@ -320,6 +323,10 @@ def llm_is_benchmark(client: OpenAI, paper: dict, model: str) -> bool:
             )
 
             content = (resp.choices[0].message.content or "").strip().upper()
+            logger.debug(f"提取的内容: '{content}'")
+            
+            # 调试：打印原始响应（在日志中可见）
+            logger.debug(f"    LLM 原始响应: '{content}' (长度 {len(content)})")
 
             if content == "YES":
                 logger.info("    🟢 LLM判定: 属于 benchmark 论文")
@@ -328,7 +335,8 @@ def llm_is_benchmark(client: OpenAI, paper: dict, model: str) -> bool:
                 logger.info("    🔴 LLM判定: 不属于 benchmark 论文")
                 return False
 
-            logger.warning(f"    ⚠️ LLM benchmark 输出异常: {content!r}")
+            # 如果响应为空或意外内容，记录警告并重试
+            logger.warning(f"    ⚠️ LLM benchmark 输出异常: '{content}'")
             if attempt < max_retries:
                 time.sleep(2 * attempt)
                 continue
