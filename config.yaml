@@ -22,7 +22,7 @@ search:
   filter_exempt_categories:
     - cs.SE          # cs.SE 论文跳过关键词检查，直接进入 LLM 判定
 
-  max_papers: 15
+  max_papers: 150
   days_back: 4
   timezone: "Asia/Shanghai"
 
