@@ -1,0 +1,70 @@
+name: 📚 Daily ArXiv Digest
+
+on:
+  schedule:
+    # 北京时间 周二~周六 上午 10:00 (UTC 02:00)
+    # 因为有了去重机制，即便你改成每天运行 (* * * * *) 也不会重复发邮件。
+    - cron: "0 2 * * 2-6"
+
+  workflow_dispatch:
+    inputs:
+      force_run:
+        description: "手动触发运行"
+        required: false
+        default: "true"
+
+# 赋予 Action 推送代码到仓库的权限
+permissions:
+  contents: write
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          # 必须设置 fetch-depth 为 0 或足够的深度以支持 commit
+          fetch-depth: 0 
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: 📦 Install dependencies
+        run: |
+          # 如果你没有 requirements.txt，确保运行下行代码
+          pip install arxiv pyyaml openai
+
+      - name: 🚀 Run digest
+        env:
+          OPENAI_API_KEY:      ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL:     ${{ secrets.OPENAI_BASE_URL }}
+          EMAIL_ADDRESS:       ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_PASSWORD:      ${{ secrets.EMAIL_PASSWORD }}
+          TO_EMAIL:            ${{ secrets.TO_EMAIL }}
+          SMTP_SERVER:         ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT:           ${{ secrets.SMTP_PORT }}
+          LLM_MODEL:           ${{ secrets.LLM_MODEL }}
+        run: python main.py
+
+      # ★ 关键修改：添加 pull_before_push 和 rebase 选项，解决 non-fast-forward 错误
+      - name: 💾 Commit and push seen_papers.txt
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(bot): update seen_papers.txt [skip ci]"
+          file_pattern: "seen_papers.txt"
+          pull_before_push: true
+          pull_args: '--rebase'
+
+      - name: 📎 Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: digest-${{ github.run_number }}
+          path: output/
+          retention-days: 10
