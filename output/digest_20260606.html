@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <style>
+        details summary::-webkit-details-marker { display: none; }
+        details summary::before { content: "▶ "; font-size: 11px; margin-right: 4px; color:#a0aec0; }
+        details[open] summary::before { content: "▼ "; }
+        details[open] summary { color: #2b6cb0 !important; }
+    </style>
+    
+</head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'PingFang SC',
+             'Microsoft YaHei',sans-serif;background:#f4f5f7;margin:0;padding:16px;">
+<div style="max-width:780px;margin:0 auto;">
+
+    <div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;
+                padding:24px;border-radius:10px;text-align:center;margin-bottom:20px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h1 style="margin:0;font-size:22px;font-weight:700;letter-spacing:0.5px;">📚 每日 ArXiv 论文精选</h1>
+        <p style="margin:8px 0 0;opacity:.9;font-size:13px;">
+            2026年06月06日 周六 Saturday · 共精选 3 篇论文
+        </p>
+        <p style="margin:6px 0 0;font-size:11px;opacity:.7;">🔍 时间窗: 2026-06-02 ~ 至今 | 分类: cs.SE, cs.AI | 过滤: code, program, software, debugging, hpc, parallel, parallelization, openmp</p>
+    </div>
+
+    
+<details style="margin-bottom:24px;">
+    <summary style="padding:8px 12px; cursor:pointer; font-size:14px; font-weight:600; color:#4a5568; background-color:#edf2f7; border-radius:6px; user-select:none; list-style:none; margin-bottom:12px;">
+        🏷️ <span style="margin-left:4px;">软件工程 (cs.SE)</span> 
+        <span style="margin-left:6px; font-size:12px; color:#718096; font-weight:normal;">(1 篇)</span>
+    </summary>
+    <div>
+
+    <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:16px;
+                border:1px solid #e2e8f0; border-left:4px solid #667eea;">
+
+        <div style="font-size:15px;font-weight:bold;color:#2d3748;margin-bottom:2px;line-height:1.4;">
+            <span style="display:inline-block;background:#ebf4ff;
+                         color:#4c51bf;width:24px;height:24px;border-radius:50%;text-align:center;
+                         line-height:24px;font-size:12px;font-weight:bold;margin-right:6px;">1</span>
+            Asuka-Bench: Benchmarking Code Agents on Underspecified User Intent and Multi-Round Refinement
+        </div>
+
+        <div style="font-size:14px;color:#555;margin-top:4px;margin-left:36px;font-weight:500;">📌 飞鸟基准：针对未明确用户意图与多轮优化的代码智能体基准测试</div>
+        
+
+        <div style="color:#718096;font-size:11px;margin:8px 0;padding-bottom:8px;
+                    border-bottom:1px dashed #edf2f7;">
+            👤 Xin Wang, Liangtai Sun, Yaoming Zhu 等11人 &nbsp;|&nbsp; 📅 2026-06-04 &nbsp;|&nbsp; 🏷️ cs.SE, cs.CL<br>
+            🔗 <a href="http://arxiv.org/abs/2606.05920v1" style="color:#4299e1;text-decoration:none;">arXiv</a>
+            &nbsp;·&nbsp;
+            📄 <a href="https://arxiv.org/pdf/2606.05920v1" style="color:#4299e1;text-decoration:none;">PDF</a>
+        </div>
+
+        <div style="background:linear-gradient(135deg,#f0f4ff,#f5f0ff);border-radius:8px;padding:10px 14px;margin:8px 0 6px;font-size:13px;color:#333;line-height:1.5;"><strong style="color:#667eea;">💡 </strong>针对现有代码基准忽略真实开发中需求模糊与迭代反馈的问题，提出包含多轮优化闭环的Asuka-Bench基准。</div>
+
+        <details style="cursor:pointer;margin-top:6px;">
+            <summary style="font-size:13px;font-weight:600;color:#667eea;
+                            padding:4px 0;user-select:none;outline:none;
+                            list-style:none;">
+                <span>📋 展开中文摘要</span>
+            </summary>
+            <div style="font-size:13px;line-height:1.6;color:#4a5568;
+                        margin-top:8px;padding:12px;background:#f7fafc;
+                        border-radius:6px;border:1px solid #edf2f7;">
+                <p style='margin:3px 0;line-height:1.5;color:#333;'>现有的代码生成基准测试仅评估从完整提示到一次性输出的单一映射关系。然而，真实的网页开发并非如此。用户很少在开始时编写完整的需求说明；许多需求只有在用户看到中间结果并做出反应后才变得清晰。我们提出了Asuka-Bench，这是一个将未明确用户意图与多轮优化相结合的基准测试，其评估基于浏览器渲染的实际行为。每个任务通过一个闭环流程解决：代码智能体生成网页项目，UI智能体在部署的网站上执行测试用例，用户大语言模型将评估结果转化为自然语言反馈以进入下一轮优化。该基准包含50个网页任务，涉及784个评估标准和2402个预期结果。我们在2个智能体框架上对8个大语言模型进行了基准测试。结果清晰地展现了模型间的差异：加权任务通过率相差38个百分点，且模型在根据反馈进行修复的能力上也存在显著差异。Asuka-Bench远未达到饱和状态：即使是最强的模型，在三轮优化后也仅能完成52%的项目。</p>
+            </div>
+        </details>
+
+        <details style="cursor:pointer;margin-top:2px;">
+            <summary style="font-size:12px;font-weight:600;color:#a0aec0;
+                            padding:4px 0;user-select:none;outline:none;
+                            list-style:none;">
+                <span>📎 复制卡片文本</span>
+            </summary>
+            <pre style="background:#f7fafc;border:1px solid #edf2f7;border-radius:6px;
+                        padding:10px;margin-top:6px;font-size:12px;line-height:1.5;
+                        font-family:Consolas,'Microsoft YaHei',monospace;
+                        white-space:pre-wrap;word-wrap:break-word;
+                        color:#4a5568;user-select:all;cursor:text;">Asuka-Bench: Benchmarking Code Agents on Underspecified User Intent and Multi-Round Refinement
+📌 飞鸟基准：针对未明确用户意图与多轮优化的代码智能体基准测试
+💡 针对现有代码基准忽略真实开发中需求模糊与迭代反馈的问题，提出包含多轮优化闭环的Asuka-Bench基准。
+🔗 http://arxiv.org/abs/2606.05920v1</pre>
+        </details>
+    </div>
+    </div>
+</details>
+
+<details style="margin-bottom:24px;">
+    <summary style="padding:8px 12px; cursor:pointer; font-size:14px; font-weight:600; color:#4a5568; background-color:#edf2f7; border-radius:6px; user-select:none; list-style:none; margin-bottom:12px;">
+        🏷️ <span style="margin-left:4px;">人工智能 (cs.AI)</span> 
+        <span style="margin-left:6px; font-size:12px; color:#718096; font-weight:normal;">(2 篇)</span>
+    </summary>
+    <div>
+
+    <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:16px;
+                border:1px solid #e2e8f0; border-left:4px solid #667eea;">
+
+        <div style="font-size:15px;font-weight:bold;color:#2d3748;margin-bottom:2px;line-height:1.4;">
+            <span style="display:inline-block;background:#ebf4ff;
+                         color:#4c51bf;width:24px;height:24px;border-radius:50%;text-align:center;
+                         line-height:24px;font-size:12px;font-weight:bold;margin-right:6px;">2</span>
+            When Tools Fail: Benchmarking Dynamic Replanning and Anomaly Recovery in LLM Agents
+        </div>
+
+        <div style="font-size:14px;color:#555;margin-top:4px;margin-left:36px;font-weight:500;">📌 当工具失效时：LLM智能体动态重规划与异常恢复的基准测试</div>
+        <div style="margin-top:4px;"><span style="background:#e8f5e9;color:#2e7d32;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:4px;">🔑 code</span></div>
+
+        <div style="color:#718096;font-size:11px;margin:8px 0;padding-bottom:8px;
+                    border-bottom:1px dashed #edf2f7;">
+            👤 Dongsheng Zhu, Xuchen Ma, Yucheng Shen 等8人 &nbsp;|&nbsp; 📅 2026-06-04 &nbsp;|&nbsp; 🏷️ cs.AI<br>
+            🔗 <a href="http://arxiv.org/abs/2606.05806v1" style="color:#4299e1;text-decoration:none;">arXiv</a>
+            &nbsp;·&nbsp;
+            📄 <a href="https://arxiv.org/pdf/2606.05806v1" style="color:#4299e1;text-decoration:none;">PDF</a>
+        </div>
+
+        <div style="background:linear-gradient(135deg,#f0f4ff,#f5f0ff);border-radius:8px;padding:10px 14px;margin:8px 0 6px;font-size:13px;color:#333;line-height:1.5;"><strong style="color:#667eea;">💡 </strong>针对现有基准忽略工具故障的问题，提出ToolMaze基准，通过二维设计评估LLM智能体在动态路径发现与错误恢复中的表现。</div>
+
+        <details style="cursor:pointer;margin-top:6px;">
+            <summary style="font-size:13px;font-weight:600;color:#667eea;
+                            padding:4px 0;user-select:none;outline:none;
+                            list-style:none;">
+                <span>📋 展开中文摘要</span>
+            </summary>
+            <div style="font-size:13px;line-height:1.6;color:#4a5568;
+                        margin-top:8px;padding:12px;background:#f7fafc;
+                        border-radius:6px;border:1px solid #edf2f7;">
+                <p style='margin:3px 0;line-height:1.5;color:#333;'>现有基准在理想化的“快乐路径”上评估LLM中的工具集成推理（TIR），很大程度上忽略了现实世界中的工具故障。我们引入了ToolMaze，一个用于TIR智能体动态路径发现与错误恢复的基准。为了将系统性重规划与盲目试错区分开来，ToolMaze采用二维设计：基于有向无环图（DAG）的拓扑复杂度，以及工具扰动的$2 \times 2$分类法（显式/隐式、瞬时/永久）。评估表明，扰动几乎在所有模型上降低了性能，在隐式语义故障下下降最为显著。由于对受损输出的系统性过度信任，在这些场景中扰动恢复率（PRR）骤降约37%，而复杂拓扑结构将智能体困在徒劳的试错循环中。关键的是，智能体容错能力的提升速度比基本任务执行慢3.66倍，这凸显了动态重规划是一个独立于模型规模或提示工程的瓶颈。数据和代码可在https://github.com/Zhudongsheng75/ToolMaze获取。</p>
+            </div>
+        </details>
+
+        <details style="cursor:pointer;margin-top:2px;">
+            <summary style="font-size:12px;font-weight:600;color:#a0aec0;
+                            padding:4px 0;user-select:none;outline:none;
+                            list-style:none;">
+                <span>📎 复制卡片文本</span>
+            </summary>
+            <pre style="background:#f7fafc;border:1px solid #edf2f7;border-radius:6px;
+                        padding:10px;margin-top:6px;font-size:12px;line-height:1.5;
+                        font-family:Consolas,'Microsoft YaHei',monospace;
+                        white-space:pre-wrap;word-wrap:break-word;
+                        color:#4a5568;user-select:all;cursor:text;">When Tools Fail: Benchmarking Dynamic Replanning and Anomaly Recovery in LLM Agents
+📌 当工具失效时：LLM智能体动态重规划与异常恢复的基准测试
+💡 针对现有基准忽略工具故障的问题，提出ToolMaze基准，通过二维设计评估LLM智能体在动态路径发现与错误恢复中的表现。
+🔗 http://arxiv.org/abs/2606.05806v1</pre>
+        </details>
+    </div>
+    <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:16px;
+                border:1px solid #e2e8f0; border-left:4px solid #667eea;">
+
+        <div style="font-size:15px;font-weight:bold;color:#2d3748;margin-bottom:2px;line-height:1.4;">
+            <span style="display:inline-block;background:#ebf4ff;
+                         color:#4c51bf;width:24px;height:24px;border-radius:50%;text-align:center;
+                         line-height:24px;font-size:12px;font-weight:bold;margin-right:6px;">3</span>
+            Can LLMs Write Correct TLA+ Specifications? Evaluating Natural-Language-to-TLA+ Generation
+        </div>
+
+        <div style="font-size:14px;color:#555;margin-top:4px;margin-left:36px;font-weight:500;">📌 大语言模型能否写出正确的 TLA+ 规范？自然语言到 TLA+ 生成的评估</div>
+        
+
+        <div style="color:#718096;font-size:11px;margin:8px 0;padding-bottom:8px;
+                    border-bottom:1px dashed #edf2f7;">
+            👤 Arslan Bisharat, Brian Ortiz, Eric Spencer 等8人 &nbsp;|&nbsp; 📅 2026-06-04 &nbsp;|&nbsp; 🏷️ cs.AI, cs.LG, cs.LO<br>
+            🔗 <a href="http://arxiv.org/abs/2606.05792v1" style="color:#4299e1;text-decoration:none;">arXiv</a>
+            &nbsp;·&nbsp;
+            📄 <a href="https://arxiv.org/pdf/2606.05792v1" style="color:#4299e1;text-decoration:none;">PDF</a>
+        </div>
+
+        <div style="background:linear-gradient(135deg,#f0f4ff,#f5f0ff);border-radius:8px;padding:10px 14px;margin:8px 0 6px;font-size:13px;color:#333;line-height:1.5;"><strong style="color:#667eea;">💡 </strong>本文首次系统评估了30个大语言模型从自然语言生成TLA+规范的能力，发现语义正确率仅8.6%，且模型大小与质量无关。</div>
+
+        <details style="cursor:pointer;margin-top:6px;">
+            <summary style="font-size:13px;font-weight:600;color:#667eea;
+                            padding:4px 0;user-select:none;outline:none;
+                            list-style:none;">
+                <span>📋 展开中文摘要</span>
+            </summary>
+            <div style="font-size:13px;line-height:1.6;color:#4a5568;
+                        margin-top:8px;padding:12px;background:#f7fafc;
+                        border-radius:6px;border:1px solid #edf2f7;">
+                <p style='margin:3px 0;line-height:1.5;color:#333;'>TLA+ 已在亚马逊和微软等公司的工业验证中得到支持，然而从自然语言编写正确的 TLA+ 规范仍然需要时间和专业知识，这限制了其采用。大语言模型显示出潜力，但尚无先前研究衡量它们是否能从自然语言生成语义正确的 TLA+ 规范。本文首次对基于大语言模型的从自然语言合成 TLA+ 规范进行了系统评估。我们的研究在精心策划的 205 个 TLA+ 规范数据集上评估了来自八个系列的 30 个大语言模型：采用四种提示策略的 25 个开放权重模型（2,600 次运行）和采用少样本提示的 5 个专有模型（130 次运行），所有结果均通过 SANY 解析器和 TLC 模型检查器验证。大语言模型实现了高达 26.6% 的语法正确率，但仅 8.6% 的语义正确率，且成功案例仅限于渐进式提示。结果表明，模型大小不能预测质量，例如，DeepSeek r1:8b 在所有策略上均优于其 70B 变体，这表明推理对齐对形式语言的重要性。由于主流语言训练的负迁移，代码专用模型始终表现不佳。我们识别出五种反复出现的幻觉类别，所有类别均可追溯到特定的训练数据偏差。这些结果表明，当前的大语言模型在没有专家监督的情况下无法生成可靠的 TLA+ 规范。我们发布了评估框架、代码和数据集，以支持可重复性和未来研究。</p>
+            </div>
+        </details>
+
+        <details style="cursor:pointer;margin-top:2px;">
+            <summary style="font-size:12px;font-weight:600;color:#a0aec0;
+                            padding:4px 0;user-select:none;outline:none;
+                            list-style:none;">
+                <span>📎 复制卡片文本</span>
+            </summary>
+            <pre style="background:#f7fafc;border:1px solid #edf2f7;border-radius:6px;
+                        padding:10px;margin-top:6px;font-size:12px;line-height:1.5;
+                        font-family:Consolas,'Microsoft YaHei',monospace;
+                        white-space:pre-wrap;word-wrap:break-word;
+                        color:#4a5568;user-select:all;cursor:text;">Can LLMs Write Correct TLA+ Specifications? Evaluating Natural-Language-to-TLA+ Generation
+📌 大语言模型能否写出正确的 TLA+ 规范？自然语言到 TLA+ 生成的评估
+💡 本文首次系统评估了30个大语言模型从自然语言生成TLA+规范的能力，发现语义正确率仅8.6%，且模型大小与质量无关。
+🔗 http://arxiv.org/abs/2606.05792v1</pre>
+        </details>
+    </div>
+    </div>
+</details>
+
+
+    <div style="text-align:center;color:#a0aec0;font-size:11px;margin-top:30px;padding:10px;">
+        🤖 由 <strong>ArXiv Daily Digest</strong> 自动精选生成
+    </div>
+</div>
+</body></html>

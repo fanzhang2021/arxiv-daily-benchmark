@@ -16,19 +16,18 @@ search:
     - "parallel"
     - "parallelization"
     - "openmp"
-    - "benchmark"
 
   keyword_mode: "filter"
 
   filter_exempt_categories:
     - cs.SE          # cs.SE 论文跳过关键词检查，直接进入 LLM 判定
 
-  max_papers: 150
+  max_papers: 15
   days_back: 4
   timezone: "Asia/Shanghai"
 
 llm:
-  model: "deepseek-v4-flash"
+  model: "deepseek-chat"
   language: "中文"
   base_url: "https://api.deepseek.com/v1"
 
