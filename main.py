@@ -131,7 +131,8 @@ def keyword_matches(paper: dict, keywords: list[str]) -> list[str]:
     text = (paper["title"] + " " + paper["abstract"]).lower()
     matched = []
     for kw in keywords:
-        pattern = rf"\b{re.escape(kw.lower())}\b"
+        # \w* 让 program 能匹配 programming / programs，benchmark 匹配 benchmarking
+        pattern = rf"\b{re.escape(kw.lower())}\w*"
         if re.search(pattern, text):
             matched.append(kw)
     return matched
@@ -278,10 +279,8 @@ SUMMARY_PROMPT = """请你作为一位资深 AI 研究员，用{language}对以�
 [准确翻译英文标题，一行即可]
 
 ### 💡 一句话总结
-[用一句话概括：这篇论文针对什么问题，提出了什么方法来解决。控制在 50 字以内。]
+[用一句话概括：这篇论文针对什么问题，提出了什么方法来解决。控制在 100 字以内。]
 
-### 📋 摘要中文全文
-[将英文摘要完整翻译为通顺的中文，要求尽量忠实原文，不要省略，不要缩写，不要额外发挥。]
 
 ---
 
@@ -290,7 +289,7 @@ SUMMARY_PROMPT = """请你作为一位资深 AI 研究员，用{language}对以�
 **摘要原文：** {abstract}
 """
 
-REQUIRED_SECTIONS = ["中文标题", "一句话总结", "摘要中文全文"]
+REQUIRED_SECTIONS = ["中文标题", "一句话总结"]
 
 def llm_is_benchmark(client: OpenAI, paper: dict, model: str) -> bool:
     """使用 LLM 判断论文是否为 benchmark 论文"""
@@ -320,14 +319,12 @@ benchmark 论文定义：提出了新的基准测试、数据集、评估任务�
                 ],
                 temperature=0,
                 max_tokens=50,
+                # ========= DeepSeek 关闭深度推理 =========
+                extra_body={"thinking": {"type": "disabled"}},
             )
-            print(resp)
             content = (resp.choices[0].message.content or "").strip().upper()
             logger.debug(f"提取的内容: '{resp}'")
             
-            # 调试：打印原始响应（在日志中可见）
-            print(content)
-
             if content == "YES":
                 logger.info("    🟢 LLM判定: 属于 benchmark 论文")
                 return True
@@ -369,14 +366,16 @@ def summarize_paper(client: OpenAI, paper: dict, model: str, language: str) -> s
                         "content": (
                             f"你是一位专业的 AI 学术论文分析助手。"
                             f"请用{language}输出。"
-                            f"只能输出三个板块：中文标题、一句话总结、摘要中文全文。"
+                            f"只能输出两个板块：中文标题、一句话总结。"
                             f"不要添加其他解释、前言、结尾。"
                         ),
                     },
                     {"role": "user", "content": prompt},
                 ],
                 temperature=0.2,
-                max_tokens=3000,
+                max_tokens=300,
+                # ========= DeepSeek 关闭深度推理 =========
+                extra_body={"thinking": {"type": "disabled"}},
             )
 
             content = resp.choices[0].message.content or ""
@@ -417,7 +416,6 @@ def summarize_paper(client: OpenAI, paper: dict, model: str, language: str) -> s
 ### 💡 一句话总结
 总结生成失败（已重试{max_retries}次）
 
-### 📋 摘要中文全文
 错误：{e}"""
 
     return "⚠️ 总结生成失败"
@@ -439,14 +437,14 @@ def parse_summary(summary_text: str) -> dict:
     return {
         "chinese_title": extract_section(summary_text, "📌 中文标题"),
         "one_line": extract_section(summary_text, "💡 一句话总结"),
-        "abstract_cn": extract_section(summary_text, "📋 摘要中文全文"),
     }
 
 def highlight_keywords(text: str, keywords: list[str]) -> str:
     if not keywords:
         return text
     for kw in keywords:
-        pattern = re.compile(rf"\b({re.escape(kw)})\b", re.IGNORECASE)
+        # 捕获整段（含后缀）作为高亮内容，和 keyword_matches 保持一致
+        pattern = re.compile(rf"\b({re.escape(kw)}\w*)", re.IGNORECASE)
         text = pattern.sub(
             lambda m: (
                 f'<mark style="background:#fff3cd;padding:1px 3px;'
@@ -532,7 +530,6 @@ def build_html(papers: list[dict], summaries: list[str], config: dict, cutoff_da
 
             chinese_title = parsed["chinese_title"]
             one_line = parsed["one_line"]
-            abstract_cn = parsed["abstract_cn"]
 
             title_html = paper["title"]
             matched_kw = paper.get("matched_keywords", [])
@@ -566,7 +563,6 @@ def build_html(papers: list[dict], summaries: list[str], config: dict, cutoff_da
                     f'</div>'
                 )
 
-            abstract_html = text_to_html_paragraphs(abstract_cn) if abstract_cn else ""
             copy_text = f"{paper['title']}\n📌 {chinese_title}\n💡 {one_line}\n🔗 {paper['url']}"
 
             group_html += f"""
@@ -593,18 +589,6 @@ def build_html(papers: list[dict], summaries: list[str], config: dict, cutoff_da
 
         {one_line_html}
 
-        <details style="cursor:pointer;margin-top:6px;">
-            <summary style="font-size:13px;font-weight:600;color:#667eea;
-                            padding:4px 0;user-select:none;outline:none;
-                            list-style:none;">
-                <span>📋 展开中文摘要</span>
-            </summary>
-            <div style="font-size:13px;line-height:1.6;color:#4a5568;
-                        margin-top:8px;padding:12px;background:#f7fafc;
-                        border-radius:6px;border:1px solid #edf2f7;">
-                {abstract_html}
-            </div>
-        </details>
 
         <details style="cursor:pointer;margin-top:2px;">
             <summary style="font-size:12px;font-weight:600;color:#a0aec0;
